@@ -1,0 +1,1 @@
+testando meu conhecimento de Local Storage.

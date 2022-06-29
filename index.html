@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Local Storage</title>
+    <style>
+        .botao{
+            width: 190px;
+            margin: 5px;
+        }
+        .divTarefa{
+            color: white;
+            max-width: 80%;
+            background-color: rgb(160, 89, 150);       
+            margin: auto;
+            text-align: center;
+        }
+
+        .divAdicionaTarefa{
+            max-width: 80%;
+            margin: auto;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+    onload = function(){
+            
+            let adicionar = document.getElementById("btnAdicionar");
+            let remover = document.getElementById("btnRemove");            
+            let task = document.getElementById("textTask");
+            let listaTask = [];
+            let paragLista = document.getElementById("listaP");
+
+            // console.log(JSON.parse(localStorage.getItem("listaTarefas")));
+            
+            if (JSON.parse(localStorage.getItem("listaTarefas")) != null){
+                listaTask = JSON.parse(localStorage.getItem("listaTarefas"));
+            } 
+            
+            
+            
+            if (listaTask != null){
+                for (var elemento of listaTask) {
+                    paragLista.innerHTML = paragLista.innerHTML + elemento+"<br>";
+                }
+            }
+            
+            remover.onclick = function(){
+                localStorage.removeItem("listaTarefas");
+                listaTask = [];
+                task.value = "";
+                paragLista.innerHTML ="";
+                console.log("Todos as tarefas foram removidas");
+                alert("Todos as tarefas foram removidas");
+                
+            }
+
+            adicionar.onclick = function(){
+                
+                if(task.value ==""){
+                    console.log("Erro, sem conteúdo a ser adicionado");
+                    alert("Erro, sem conteúdo a ser adicionado");
+                }else{
+                    listaTask.push(task.value);
+                    task.value = '';
+                    localStorage.setItem("listaTarefas", JSON.stringify(listaTask));
+                    console.log(localStorage.getItem("listaTarefas"));
+                    paragLista.innerHTML = paragLista.innerHTML + listaTask[listaTask.length-1]+"<br>";
+                }   
+            }
+    
+    }
+    </script>
+
+</head>
+
+
+<body>
+
+    <section>
+        <div class="divTarefa">
+            <label for="textTAsk">Adicionar tarefa</label>
+            <input type="text" id="textTask" class="botao" placeholder="Digite aqui uma tarefa">
+        </div>
+        <div class="divAdicionaTarefa">
+            <input type="submit" value="Adicionar" id="btnAdicionar">
+            <input type="submit" value="Remover Tudo" id="btnRemove">
+        </div>
+    </section>
+
+    <section>
+        <div style="text-align: center; margin-top: 100px;">
+            Lista de tarefas:
+            <p id="listaP"></p>
+        </div>
+    </section>
+    
+</body>
+</html>
